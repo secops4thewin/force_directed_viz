@@ -107,7 +107,6 @@ define(["api/SplunkVisualizationBase","api/SplunkVisualizationUtils"], function(
 	            //Adjust text fill depending on color theme
 	            var textFill = textColour(themeColor);
 	            
-
 	            // Clear the div
 	            this.$el.empty();
 
@@ -127,7 +126,7 @@ define(["api/SplunkVisualizationBase","api/SplunkVisualizationUtils"], function(
 	          svg.append('rect')
 	              .attr("width", "100%")
 	              .attr("height", "100%")
-	              .attr("fill","#222")
+	              .attr("fill",svgColour)
 
 	          //Create a color gradient for highlighting groups
 	          var color = d3.scaleOrdinal(d3.schemeCategory20);
@@ -293,10 +292,10 @@ define(["api/SplunkVisualizationBase","api/SplunkVisualizationUtils"], function(
 	                }
 
 	            function backgroundColour(bColour){
-	               if (bColour === 'light'){
+	            if (bColour == 'light'){
 	              return "white"
 	            }
-	            else if(bColour === 'dark')
+	            else if(bColour == 'dark')
 	                return "#222"
 	            }
 
