@@ -1,6 +1,46 @@
-<form class="splunk-formatter-section" section-label="format">
+<form class="splunk-formatter-section" section-label="Format">
+	<splunk-control-group label="Theme Color">
     <splunk-radio-input name="{{VIZ_NAMESPACE}}.theme" value="light">
     <option value="light">Light</option>
     <option value="dark">Dark</option>
 	</splunk-radio-input>
+	<splunk-control-group label="Line Stroke Width">
+        	<splunk-text-input name="{{VIZ_NAMESPACE}}.StrokeWidth" value="1"> </splunk-text-input>
+        </splunk-control-group>
+	 </splunk-control-group>
+</form>
+<form class="splunk-formatter-section" section-label="Force Configuration">
+    	<splunk-control-group label="Attract Force Strength">
+        	<splunk-text-input name="{{VIZ_NAMESPACE}}.AttractForceStrength" value="-300"> </splunk-text-input>
+        </splunk-control-group>
+        <splunk-control-group label="Attract Distance Max">
+        	<splunk-text-input name="{{VIZ_NAMESPACE}}.AttractDistanceMax" value="200"> </splunk-text-input>
+        </splunk-control-group>
+        <splunk-control-group label="Attract Distance Min">
+       		 <splunk-text-input name="{{VIZ_NAMESPACE}}.AttractDistanceMin" value="60"> </splunk-text-input>
+        </splunk-control-group>
+            	<splunk-control-group label="Repel Force Strength">
+        	<splunk-text-input name="{{VIZ_NAMESPACE}}.RepelForceStrength" value="-140"> </splunk-text-input>
+        </splunk-control-group>
+        <splunk-control-group label="Repel Distance Max">
+        	<splunk-text-input name="{{VIZ_NAMESPACE}}.RepelDistanceMax" value="50"> </splunk-text-input>
+        </splunk-control-group>
+        <splunk-control-group label="Repel Distance Min">
+       		 <splunk-text-input name="{{VIZ_NAMESPACE}}.RepelDistanceMin" value="10"> </splunk-text-input>
+        </splunk-control-group>        
+</form>
+<form class="splunk-formatter-section" section-label="Collision Configuration">
+        <splunk-control-group label="Collision Strength">
+            <splunk-text-input name="{{VIZ_NAMESPACE}}.CollisionStrength" value="0.7"> </splunk-text-input>
+        </splunk-control-group>
+        <splunk-control-group label="Collision Radius">
+            <splunk-text-input name="{{VIZ_NAMESPACE}}.CollisionRadius" value="20"> </splunk-text-input>
+        </splunk-control-group>
+        <splunk-control-group label="Force Collide">
+             <splunk-text-input name="{{VIZ_NAMESPACE}}.ForceCollision" value="20"> </splunk-text-input>
+        </splunk-control-group>
+                <splunk-control-group label="Collision Iterations">
+            <splunk-text-input name="{{VIZ_NAMESPACE}}.CollisionIterations" value="1"> </splunk-text-input>
+        </splunk-control-group>
+        
 </form>

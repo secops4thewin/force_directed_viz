@@ -52,9 +52,41 @@ define([
                  // Take the first data point
             datum = data.rows;
 
-            
             // Get color config or use a default yellow shade
             var themeColor = config[this.getPropertyNamespaceInfo().propertyNamespace + 'theme'] || 'light';
+
+            // Get Attract Force Strength
+            var AttractForceStrength = config[this.getPropertyNamespaceInfo().propertyNamespace + 'AttractForceStrength'] || '-300';
+
+            // Get Attract Force Maximum Distance
+            var AttractDistanceMax = config[this.getPropertyNamespaceInfo().propertyNamespace + 'AttractDistanceMax'] || '200';
+
+            // Get Attract Force Minimum Distance
+            var AttractDistanceMin = config[this.getPropertyNamespaceInfo().propertyNamespace + 'AttractDistanceMin'] || '60';
+
+            // Get Repel Force Strength
+            var RepelForceStrength = config[this.getPropertyNamespaceInfo().propertyNamespace + 'RepelForceStrength'] || '-140';
+
+            // Get Repel Force Maximum Distance
+            var RepelDistanceMax = config[this.getPropertyNamespaceInfo().propertyNamespace + 'RepelDistanceMax'] || '50';
+
+            // Get Repel Force Minimum Distance
+            var RepelDistanceMin = config[this.getPropertyNamespaceInfo().propertyNamespace + 'RepelDistanceMin'] || '10';
+
+            //Specify a width of the line.
+            var StrokeWidth = config[this.getPropertyNamespaceInfo().propertyNamespace + 'StrokeWidth'] || '1';
+
+            // Get Repel Force Strength
+            var CollisionStrength = config[this.getPropertyNamespaceInfo().propertyNamespace + 'CollisionStrength'] || '0.7';
+
+            // Get Repel Force Maximum Distance
+            var CollisionRadius = config[this.getPropertyNamespaceInfo().propertyNamespace + 'CollisionRadius'] || '20';
+
+            // Get Repel Force Minimum Distance
+            var ForceCollision = config[this.getPropertyNamespaceInfo().propertyNamespace + 'ForceCollision'] || '20';
+
+            //Specify a width of the line.
+            var CollisionIterations = config[this.getPropertyNamespaceInfo().propertyNamespace + 'CollisionIterations'] || '1';
 
             //Adjust background depending on color theme
             var svgColour = backgroundColour(themeColor);
@@ -86,14 +118,15 @@ define([
           //Create a color gradient for highlighting groups
           var color = d3.scaleOrdinal(d3.schemeCategory20);
           //Create attract forces
-          var attractForce = d3.forceManyBody().strength(-300).distanceMax(200).distanceMin(60);
+          var attractForce = d3.forceManyBody().strength(AttractForceStrength).distanceMax(AttractDistanceMax).distanceMin(AttractDistanceMin);
           //Create repel forces
-          var repelForce = d3.forceManyBody().strength(-140).distanceMax(50).distanceMin(10);
+          var repelForce = d3.forceManyBody().strength(RepelForceStrength).distanceMax(RepelDistanceMax).distanceMin(RepelDistanceMin);
           //Create a simulation force and apply the attract / repel force concentrating the nodes to the middle
           var simulation = d3.forceSimulation()
               .force("link", d3.forceLink().id(function(d) { return d.id; }))
               .force("attractForce",attractForce).force("repelForce",repelForce)
-              .force("center", d3.forceCenter(width / 2, height / 2));
+              .force("center", d3.forceCenter(width / 2, height / 2))
+              .force('collision', d3.forceCollide(ForceCollision).radius(CollisionRadius).strength(CollisionStrength).iterations(CollisionIterations));
 
           // Create nodes for each unique source and target.
           var nodesByName = {};
@@ -134,8 +167,8 @@ define([
                 .selectAll("line")
                 .data(datum)
                 .enter().append("line")
-                //If there is a value length you can adjust the width of the stroke.  This is for future use and not currently being used.
-                  .attr("stroke-width", function(d) { return Math.sqrt(d.value); });
+                //If there is a value in StrokeWidth you can adjust the width of the stroke.
+                  .attr("stroke-width", StrokeWidth);
 
 
                   //Append the node elements
