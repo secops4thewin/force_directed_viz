@@ -197,7 +197,14 @@ define(["api/SplunkVisualizationBase","api/SplunkVisualizationUtils"], function(
 
 	              //For each link in links create a node and push the group id to the node.
 	              datum.forEach(function(link) {
-	              group_id = groupCount.find(o => o.key === link[0]).value;
+	              //var num = groupCount.findIndex(o => o.key === link[0]);
+	              
+	              //group_id = groupCount.find(function(o){o>= o.key === link[0]).value});
+	               var groupFilter = groupCount.filter(function(x){
+	                return x.key === link[0];
+	                            });
+	               
+	               group_id = groupFilter[0].value;
 	              link.source = nodeByName(link[0], group_id);
 	              link.target = nodeByName(link[1], group_id);
 	            });
