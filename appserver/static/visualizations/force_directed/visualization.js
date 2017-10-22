@@ -133,11 +133,17 @@ define(["api/SplunkVisualizationBase","api/SplunkVisualizationUtils"], function(
 	            //Specify a width of the line.
 	            var CollisionIterations = config[this.getPropertyNamespaceInfo().propertyNamespace + 'CollisionIterations'] || '1';
 
+	             //Specify a width of the line.
+	            var LinkLength = config[this.getPropertyNamespaceInfo().propertyNamespace + 'LinkLength'] || '1';
+
+	             //Specify whether arrows are enabled or not.
+	            var Arrows = config[this.getPropertyNamespaceInfo().propertyNamespace + 'arrows'] || 'disabled';
+
 	            //Adjust background depending on color theme
 	            var svgColour = backgroundColour(themeColor);
 	            
 	            //Adjust text fill depending on color theme
-	            var textFill = textColour(themeColor);
+	            var stringFill = stringColour(themeColor);
 	            
 	            // Clear the div
 	            this.$el.empty();
@@ -159,6 +165,21 @@ define(["api/SplunkVisualizationBase","api/SplunkVisualizationUtils"], function(
 	              .attr("width", "100%")
 	              .attr("height", "100%")
 	              .attr("fill",svgColour)
+
+	          // build the arrow.
+	          svg.append("svg:defs").selectAll("marker")
+	            .data(["end"])
+	            .enter().append("svg:marker")
+	            .attr("id", String)
+	            .attr("viewBox", "0 -5 10 10")
+	            .attr("refX", 30)
+	            .attr("refY", 0)
+	            .attr("fill",stringFill)
+	            .attr("markerWidth", 6)
+	            .attr("markerHeight", 6)
+	            .attr("orient", "auto")
+	            .append("svg:path")
+	            .attr("d", "M0,-5L10,0L0,5");
 
 	          //Create a color gradient for highlighting groups
 	          var color = d3.scaleOrdinal(d3.schemeCategory20);
@@ -197,13 +218,9 @@ define(["api/SplunkVisualizationBase","api/SplunkVisualizationUtils"], function(
 
 	              //For each link in links create a node and push the group id to the node.
 	              datum.forEach(function(link) {
-	              //var num = groupCount.findIndex(o => o.key === link[0]);
-	              
-	              //group_id = groupCount.find(function(o){o>= o.key === link[0]).value});
 	               var groupFilter = groupCount.filter(function(x){
 	                return x.key === link[0];
 	                            });
-	               
 	               group_id = groupFilter[0].value;
 	              link.source = nodeByName(link[0], group_id);
 	              link.target = nodeByName(link[1], group_id);
@@ -221,6 +238,10 @@ define(["api/SplunkVisualizationBase","api/SplunkVisualizationUtils"], function(
 	                .enter().append("line")
 	                //If there is a value in StrokeWidth you can adjust the width of the stroke.
 	                  .attr("stroke-width", StrokeWidth);
+	                  
+	                  if (Arrows == 'enabled'){
+	                  link.attr("marker-end", "url(#end)");
+	                }
 
 
 	                  //Append the node elements
@@ -249,7 +270,7 @@ define(["api/SplunkVisualizationBase","api/SplunkVisualizationUtils"], function(
 	              .attr("x",10)
 	              .attr("y",0)                   
 	              .attr("dy", ".35em")
-	              .style("fill",textFill)
+	              .style("fill",stringFill)
 	              .text(function(d) { return d.name; });
 	              
 
@@ -318,17 +339,80 @@ define(["api/SplunkVisualizationBase","api/SplunkVisualizationUtils"], function(
 
 	            //Function to fade out other non connected nodes when you mouse over a node.
 	            function fade(opacity) {
-	                    return function(d) {
-	                        node.style("stroke-opacity", function(o) {
-	                            thisOpacity = isConnected(d, o) ? 1 : opacity;
-	                            this.setAttribute('fill-opacity', thisOpacity);
-	                            return thisOpacity;
-	                        });
+	           return function(d) {
+	          //Create an empty node array for use in opacity
+	          node_list = [];
+	          //Create an empty node array to ensure that for loops don't go out of control
+	          temp_arr = [];
+	          //Push first member of array
+	          node_list.push(d);
+	          //Specify that the s variable responsible for how many links is set to 0
+	          var s = 0;              
+	          //Start the do function
+	              do{
+	              //For every node
+	              node.selectAll(function(n){
+	              //For every linked node
+	              node_list.forEach(function(nodeName)
+	              {
+	              //If the node is connected to another node
+	              if (isConnected(n,nodeName) === 1 || isConnected(n,nodeName) === true ){
+	                //If the array item is not in the node_list array
+	                  if (node_list.indexOf(n) === -1){
+	                //Push to the temporary array
+	                  temp_arr.push(n);
+	                  }  
+	                    } 
+	                  
+	                  });
+	              });
+	              //For each row in the temporary array
+	              temp_arr.forEach(function(tempNode){
+	                //If the array item is not in the node_list array
+	                if (node_list.indexOf(tempNode) === -1){
+	                  //Push to the node_list array
+	                  node_list.push(tempNode);
+	                  }  
+	              });
+	              //Clear the temporary array
+	              temp_arr = [];
+	              //Increment the counter of s
+	              s++;
+	              
+	            }
+	            //Perform the iteration no more than value of LinkLength
+	            while(s<LinkLength)
 
-	                        link.style("stroke-opacity", function(o) {
-	                            return o.source === d || o.target === d ? 1 : opacity;
-	                        });
-	                    };
+	              node.selectAll(function(n){
+	                nodeObject = this;
+	                for (var i=0;i<node_list.length;i++){
+	                  
+	                  if (n === node_list[i]){
+	                      nodeObject.setAttribute('fill-opacity', 1);
+	                      nodeObject.setAttribute('stroke-opacity', 1);
+	                      break;
+	                  }
+	                  else{
+	                    nodeObject.setAttribute('fill-opacity', opacity);
+	                    nodeObject.setAttribute('stroke-opacity', opacity);
+	                  }
+	                }
+	              }); 
+	            
+	            link.selectAll(function(o) {  
+	              linkObject = this;
+	              for (var x=0;x<node_list.length;x++){              
+	                if (node_list.indexOf(o.source) >=0 && node_list.indexOf(o.target) >=0){ 
+	                      linkObject.setAttribute('opacity', 1);
+	                   break;
+	                } 
+	                else{ 
+	                  linkObject.setAttribute('opacity', opacity);
+	                }
+	              }
+	            });   
+	        
+	      }
 	                }
 
 	            function backgroundColour(bColour){
@@ -339,7 +423,7 @@ define(["api/SplunkVisualizationBase","api/SplunkVisualizationUtils"], function(
 	                return "#222"
 	            }
 
-	            function textColour(tColour){
+	            function stringColour(tColour){
 	              if (tColour === 'light'){
 	              return "black"
 	            }

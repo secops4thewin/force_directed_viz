@@ -4,10 +4,21 @@
     <option value="light">Light</option>
     <option value="dark">Dark</option>
 	</splunk-radio-input>
+    </splunk-control-group>
+    <splunk-control-group label="Arrows">
+    <splunk-radio-input name="{{VIZ_NAMESPACE}}.arrows" value="disabled">
+    <option value="enabled">Enabled</option>
+    <option value="disabled">Disabled</option>
+    </splunk-radio-input>
+    </splunk-control-group>
 	<splunk-control-group label="Line Stroke Width">
         	<splunk-text-input name="{{VIZ_NAMESPACE}}.StrokeWidth" value="1"> </splunk-text-input>
         </splunk-control-group>
 	 </splunk-control-group>
+     <splunk-control-group label="Link Length">
+            <splunk-text-input name="{{VIZ_NAMESPACE}}.LinkLength" value="1"> </splunk-text-input>
+     </splunk-control-group>
+     </splunk-control-group>
 </form>
 <form class="splunk-formatter-section" section-label="Force Configuration">
     	<splunk-control-group label="Attract Force Strength">
