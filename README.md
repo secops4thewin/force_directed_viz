@@ -15,9 +15,13 @@ https://github.com/d3/d3-force/blob/master/README.md
 
 1. Download the app and unzip to $SPLUNK_HOME/etc/apps on your Search Head
 2. Restart Splunk
-3. Generate a search that has a 'source', 'target' and optionally a count. For example
+3. Generate a search that has a 'source', 'target' and optionally a count. 
+
+### Search Examples
 
 - index=firewall action=allowed | stats count by src_ip, dest_ip | table src_ip, dest_ip, count
+- sourcetype=access_combined | stats count by src_ip,uri_path
+
 
 ### Bugs
 Known - Arrows not working in IE11.  This is a bug in IE not the code.  To make the code flexible to exclude and include arrows I could not make this work.
