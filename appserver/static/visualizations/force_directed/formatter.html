@@ -55,3 +55,46 @@
         </splunk-control-group>
         
 </form>
+<form class="splunk-formatter-section" section-label="Line Color">
+        <splunk-control-group label="Line Color Enabled">
+    <splunk-radio-input name="{{VIZ_NAMESPACE}}.LineColor" value="disabled">
+    <option value="enabled">Enabled</option>
+    <option value="disabled">Disabled</option>
+    </splunk-radio-input>
+    <html><p>Color Ranges, each range must be greater than the previous range</p></html>
+    <splunk-control-group label="Color Range 1" >
+            <splunk-text-input name="{{VIZ_NAMESPACE}}.ColorRange1" value="100"> </splunk-text-input>
+        </splunk-control-group>
+        <splunk-control-group>
+        <splunk-color-picker type="splunkSemantic" value="#65a637" name="{{VIZ_NAMESPACE}}.ColorRange1Code">
+            </splunk-color-picker>
+            </splunk-control-group>
+        <splunk-control-group label="Color Range 2" >
+            <splunk-text-input name="{{VIZ_NAMESPACE}}.ColorRange2" value="500"> </splunk-text-input>
+        </splunk-control-group>
+           <splunk-control-group>
+        <splunk-color-picker type="splunkSemantic" value="#6db7c6" name="{{VIZ_NAMESPACE}}.ColorRange2Code">
+            </splunk-color-picker>
+            </splunk-control-group>
+        <splunk-control-group label="Color Range 3"  >
+            <splunk-text-input name="{{VIZ_NAMESPACE}}.ColorRange3" value="1000"> </splunk-text-input>
+        </splunk-control-group>
+           <splunk-control-group>
+        <splunk-color-picker type="splunkSemantic" value="#f7bc38" name="{{VIZ_NAMESPACE}}.ColorRange3Code">
+            </splunk-color-picker>
+            </splunk-control-group>
+        <splunk-control-group label="Color Range 4"  >
+            <splunk-text-input name="{{VIZ_NAMESPACE}}.ColorRange4" value="10000"> </splunk-text-input>
+        </splunk-control-group>
+           <splunk-control-group>
+        <splunk-color-picker type="splunkSemantic" value="#f58f39" name="{{VIZ_NAMESPACE}}.ColorRange4Code">
+            </splunk-color-picker>
+            </splunk-control-group>
+        <splunk-control-group label="Color Range 5"  >
+            <splunk-text-input name="{{VIZ_NAMESPACE}}.ColorRange5" value="1000000"> </splunk-text-input>
+        </splunk-control-group>
+           <splunk-control-group>
+        <splunk-color-picker type="splunkSemantic" value="#d93f3c" name="{{VIZ_NAMESPACE}}.ColorRange5Code">
+            </splunk-color-picker>
+            </splunk-control-group>
+</form>

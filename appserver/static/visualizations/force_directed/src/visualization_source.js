@@ -91,8 +91,41 @@ define([
              //Specify a width of the line.
             var LinkLength = config[this.getPropertyNamespaceInfo().propertyNamespace + 'LinkLength'] || '1';
 
-             //Specify whether arrows are enabled or not.
+            //Specify whether arrows are enabled or not.
             var Arrows = config[this.getPropertyNamespaceInfo().propertyNamespace + 'arrows'] || 'disabled';
+
+            //Specify first color range
+            var ColorRange1 = config[this.getPropertyNamespaceInfo().propertyNamespace + 'ColorRange1'] || '100';
+            
+            //Specify second color range
+            var ColorRange2 = config[this.getPropertyNamespaceInfo().propertyNamespace + 'ColorRange2'] || '500';
+            
+            //Specify third color range
+            var ColorRange3 = config[this.getPropertyNamespaceInfo().propertyNamespace + 'ColorRange3'] || '1000';
+            
+            //Specify fourth color range
+            var ColorRange4 = config[this.getPropertyNamespaceInfo().propertyNamespace + 'ColorRange4'] || '10000';
+            
+            //Specify fifth color range
+            var ColorRange5 = config[this.getPropertyNamespaceInfo().propertyNamespace + 'ColorRange5'] || '10000';
+
+             //Specify first color range
+            var ColorRange1Code = config[this.getPropertyNamespaceInfo().propertyNamespace + 'ColorRange1Code'] || '#65a637';
+            
+            //Specify second color range
+            var ColorRange2Code = config[this.getPropertyNamespaceInfo().propertyNamespace + 'ColorRange2Code'] || '#6db7c6';
+            
+            //Specify third color range
+            var ColorRange3Code = config[this.getPropertyNamespaceInfo().propertyNamespace + 'ColorRange3Code'] || '#f7bc38';
+            
+            //Specify fourth color range
+            var ColorRange4Code = config[this.getPropertyNamespaceInfo().propertyNamespace + 'ColorRange4Code'] || '#f58f39';
+            
+            //Specify fifth color range
+            var ColorRange5Code = config[this.getPropertyNamespaceInfo().propertyNamespace + 'ColorRange5Code'] || '#d93f3c';
+            
+            //Enable Line Coloring range
+            var LineColor = config[this.getPropertyNamespaceInfo().propertyNamespace + 'LineColor'] || 'disabled';
 
             //Adjust background depending on color theme
             var svgColour = backgroundColour(themeColor);
@@ -196,6 +229,33 @@ define([
                   
                   if (Arrows == 'enabled'){
                   link.attr("marker-end", "url(#end)");
+                }
+
+                if (LineColor == 'enabled'){
+                  if(data.fields[2]['name'] != 'count'){
+                  throw new SplunkVisualizationBase.VisualizationError(
+                    'No count field in results.  Either rename your count field or include it in the 3rd column as per the example'
+                    );
+                  }
+                
+                  link.style("stroke", function(d) { 
+
+                    if(d[2] <= ColorRange1){
+                      return ColorRange1Code
+                    }
+                     else if(d[2] > ColorRange1 && d[2]<=ColorRange2){
+                      return ColorRange2Code
+                    }
+                    else if(d[2] > ColorRange2 && d[2]<=ColorRange3){
+                      return ColorRange3Code
+                    }
+                    else if(d[2] > ColorRange3 && d[2]<=ColorRange4){
+                      return ColorRange4Code
+                    }
+                    else if(d[2] > ColorRange4){
+                      return ColorRange5Code
+                    }
+                });
                 }
 
 
