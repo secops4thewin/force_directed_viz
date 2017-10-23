@@ -29,7 +29,7 @@ Known - Arrows not working in IE11.  This is a bug in IE not the code.  To make 
 Please report any other bugs to this page.  I accept pull requests.
 
 ### Feature Requests
-
+Post any feature requests as issues and I will look around to them.  My only feedback prior to making feature requests is ensuring that the feature does not reduce the flexibility of the app :).
 
 ### Tested on
 **Mac**
