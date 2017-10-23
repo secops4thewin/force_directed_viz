@@ -32,5 +32,6 @@ Please report any other bugs to this page.  I accept pull requests.
 - Safari Version 11.0 
 - Chrome Version 61.0.X (Official Build) (64-bit)
 - Firefox 64.0
+
 **Windows Server 2012**
 - Internet Explorer 11
