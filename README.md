@@ -7,6 +7,7 @@ This app was created to allow IT Operations administrators and the security team
 - Customisation to collision forces to avoid overlapping
 
 Also some great references for D3 below.
+
 https://roshansanthosh.wordpress.com/2016/09/25/forces-in-d3-js-v4/
 https://github.com/d3/d3-force/blob/master/README.md
 
