@@ -284,20 +284,24 @@ define(["api/SplunkVisualizationBase","api/SplunkVisualizationUtils"], function(
 	                  }
 	                
 	                  link.style("stroke", function(d) { 
-
-	                    if(d[2] <= ColorRange1){
+	                      numberValue = Number(d[2])
+	                    if(numberValue <= ColorRange1){
 	                      return ColorRange1Code
 	                    }
-	                     else if(d[2] > ColorRange1 && d[2]<=ColorRange2){
+	                     else if(numberValue > ColorRange1 && numberValue <= ColorRange2){
+	                 
 	                      return ColorRange2Code
 	                    }
-	                    else if(d[2] > ColorRange2 && d[2]<=ColorRange3){
+	                    else if(numberValue > ColorRange2 && numberValue <= ColorRange3){
+	                 
 	                      return ColorRange3Code
 	                    }
-	                    else if(d[2] > ColorRange3 && d[2]<=ColorRange4){
+	                    else if(numberValue > ColorRange3 && numberValue <= ColorRange4){
+	                 
 	                      return ColorRange4Code
 	                    }
-	                    else if(d[2] > ColorRange4){
+	                    else if(numberValue > ColorRange4){
+	                 
 	                      return ColorRange5Code
 	                    }
 	                });
