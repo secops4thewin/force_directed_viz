@@ -98,7 +98,7 @@ define(["api/SplunkVisualizationBase","api/SplunkVisualizationUtils"], function(
 
 	  // Get color config or use a default yellow shade
 	  var themeColor = config[this.getPropertyNamespaceInfo().propertyNamespace + 'theme'] || 'light';
-	  
+
 	  // Get circle size from format or set to 5
 	  var circleSize = config[this.getPropertyNamespaceInfo().propertyNamespace + 'circleSize'] || '5';
 
@@ -146,31 +146,31 @@ define(["api/SplunkVisualizationBase","api/SplunkVisualizationUtils"], function(
 
 	  //Specify first color range
 	  var ColorRange1 = config[this.getPropertyNamespaceInfo().propertyNamespace + 'ColorRange1'] || '100';
-	  
+
 	  //Specify second color range
 	  var ColorRange2 = config[this.getPropertyNamespaceInfo().propertyNamespace + 'ColorRange2'] || '500';
-	  
+
 	  //Specify third color range
 	  var ColorRange3 = config[this.getPropertyNamespaceInfo().propertyNamespace + 'ColorRange3'] || '1000';
-	  
+
 	  //Specify fourth color range
 	  var ColorRange4 = config[this.getPropertyNamespaceInfo().propertyNamespace + 'ColorRange4'] || '10000';
-	  
+
 	  //Specify fifth color range
 	  var ColorRange5 = config[this.getPropertyNamespaceInfo().propertyNamespace + 'ColorRange5'] || '10000';
 
 	   //Specify first color range
 	  var ColorRange1Code = config[this.getPropertyNamespaceInfo().propertyNamespace + 'ColorRange1Code'] || '#65a637';
-	  
+
 	  //Specify second color range
 	  var ColorRange2Code = config[this.getPropertyNamespaceInfo().propertyNamespace + 'ColorRange2Code'] || '#6db7c6';
-	  
+
 	  //Specify third color range
 	  var ColorRange3Code = config[this.getPropertyNamespaceInfo().propertyNamespace + 'ColorRange3Code'] || '#f7bc38';
-	  
+
 	  //Specify fourth color range
 	  var ColorRange4Code = config[this.getPropertyNamespaceInfo().propertyNamespace + 'ColorRange4Code'] || '#f58f39';
-	  
+
 	  //Specify fifth color range
 	  var ColorRange5Code = config[this.getPropertyNamespaceInfo().propertyNamespace + 'ColorRange5Code'] || '#d93f3c';
 
@@ -227,7 +227,7 @@ define(["api/SplunkVisualizationBase","api/SplunkVisualizationUtils"], function(
 	var repelForce = d3.forceManyBody().strength(RepelForceStrength).distanceMax(RepelDistanceMax).distanceMin(RepelDistanceMin);
 	//Create a simulation force and apply the attract / repel force concentrating the nodes to the middle
 	var simulation = d3.forceSimulation()
-	    .force("link", d3.forceLink().id(function(d) { return d.id; }).distance(LinkDistance).strength(1))
+	    .force("link", d3.forceLink().id(function(d) {return d.id; }).distance(LinkDistance).strength(1))
 	    .force("attractForce",attractForce).force("repelForce",repelForce)
 	    .force("center", d3.forceCenter(width / 2, height / 2))
 	    .force('collision', d3.forceCollide(ForceCollision).radius(CollisionRadius).strength(CollisionStrength).iterations(CollisionIterations));
@@ -244,11 +244,44 @@ define(["api/SplunkVisualizationBase","api/SplunkVisualizationUtils"], function(
 	//Create an empty dictionary for placing the results of the headers in
 	var headers = {};
 
-	//For each row in the data push the value of the first and second column into the group_list array.  
+	var linksArray = [];
+
+	var x = 0;
+
+	columns = [];
+
+	var pattern=/node\d{2}/i;
+
+	  data.fields.forEach(function(column){
+	  var str = String(column.name) ;
+	  if(str.match(pattern)){
+	      columns.push(x);}
+	      x++;
+	  });
+
+	// Create temporary array
+	// var tmp_arr = [];
+
+	//For each row in the data push the value of the first and second column into the group_list array.
 	datum.forEach(function(link) {
-	   group_list.push({name : link[0]});
-	  group_list.push({name : link[1]});
+	  var z = 1;
+	  for (i=0;i<columns.length;i++){
+	    var node_row = Number(columns[i]);
+	    //if (tmp_arr.indexOf(link[node_row])<0){
+	    //  tmp_arr.push(link[node_row]);
+	    //  group_list.push({name : link[node_row]});
+	    //}
+	    group_list.push({name : link[node_row]});
+	  }
+
+	  //Excluded
+	  //group_list.push({name : link[0]});
+	  //group_list.push({name : link[1]});
 	});
+
+
+	//Set to temporary array to null to clear from memory
+	var tmp_arr = null;
 
 	//Perform a group by count by each source address
 	var groupCount = d3.nest()
@@ -263,10 +296,17 @@ define(["api/SplunkVisualizationBase","api/SplunkVisualizationUtils"], function(
 	      return x.key === link[0];
 	                  });
 	     group_id = groupFilter[0].value;
-	    link.source = nodeByName(link[0], group_id);
-	    link.target = nodeByName(link[1], group_id);
+	     var z = 1;
+	     for (i=0;z<columns.length;i++){
+	       node_source = Number(columns[i]);
+	       node_target = Number(columns[z]);
+	       object = {};
+	       object.target = nodeByName(link[node_target], group_id);
+	       object.source = nodeByName(link[node_source], group_id);
+	       linksArray.push(object);
+	        z++;
+	     }
 	  });
-
 
 	  // Create header rows into dictionary
 	    z = 0;
@@ -292,17 +332,16 @@ define(["api/SplunkVisualizationBase","api/SplunkVisualizationUtils"], function(
 
 	    //Push the nodesByName array into the d3 values function
 	    var nodes = d3.values(nodesByName);
-
 	    //Append the line elements to the svg
 	    var link = svg.append("g")
 	        .attr("class", "links")
 	      .selectAll("line")
-	      .data(datum)
+	      .data(linksArray)
 	      .enter().append("line")
 	      .attr("id", function(d,i){return 'edge'+i;})
 	      //If there is a value in StrokeWidth you can adjust the width of the stroke.
 	        .attr("stroke-width", StrokeWidth);
-	        
+
 	        if (Arrows == 'enabled'){
 	        link.attr("marker-end", "url(#end)");
 	      }
@@ -339,7 +378,8 @@ define(["api/SplunkVisualizationBase","api/SplunkVisualizationUtils"], function(
 	      }
 
 	      edgepaths = svg.selectAll(".edgepath")
-	            .data(datum)
+	            //.data(datum)
+	            .data(linksArray)
 	            .enter()
 	            .append('path')
 	            .attr('class','edgepath')
@@ -348,9 +388,10 @@ define(["api/SplunkVisualizationBase","api/SplunkVisualizationUtils"], function(
 	            .attr('id', function (d, i) {return 'edgepath' + i})
 	            .style("pointer-events", "none")
 	            .on("mouseover", fade(.1)).on("mouseout", fade(1));
-
+	            
 	      edgelabels = svg.selectAll(".edgelabel")
-	      .data(datum)
+	      //.data(datum)
+	      .data(linksArray)
 	      .enter()
 	      .append('text')
 	      .style("pointer-events", "none")
@@ -359,14 +400,14 @@ define(["api/SplunkVisualizationBase","api/SplunkVisualizationUtils"], function(
 	      .attr('font-size', 10)
 	      .attr('fill', stringFill)
 	      .on("mouseover", fade(.1)).on("mouseout", fade(1));
-
+	      
 	  edgelabels.append('textPath')
 	      .attr('xlink:href', function (d, i) {return '#edgepath' + i})
 	      .style("text-anchor", "middle")
 	      .style("pointer-events", "none")
 	      .attr("startOffset", "50%")
 	      .text(function (d) {return d[line_label]});
-
+	      
 	        //Append the node elements
 	    var node = svg.append("g")
 	        .attr("class", "nodes")
@@ -403,18 +444,22 @@ define(["api/SplunkVisualizationBase","api/SplunkVisualizationUtils"], function(
 	    node.append("title")
 	        .text(function(d) { return d.name; });
 
+	    for (i=0;i<linksArray.length;i++){
+	      linksArray[i]['index'] = i;
+	    }
 	      //Start the simulation on the nodes
 	    simulation
 	        .nodes(nodes)
 	        .on("tick", ticked);
+
 	    //Start the simulation on the links
 	    simulation.force("link")
-	        .links(datum);
+	          .links(linksArray);
+	          debugger;
+	      linksArray.forEach(function(d) {
+	        linkedByIndex[d.source.index + "," + d.target.index] = 1;
+	    });
 
-	      //For each neighbouring links map out the connections
-	      datum.forEach(function(d) {
-	          linkedByIndex[d.source.index + "," + d.target.index] = 1;
-	      });
 
 	      //Check to see if a node is connected
 	      function isConnected(a, b) {
@@ -459,8 +504,8 @@ define(["api/SplunkVisualizationBase","api/SplunkVisualizationUtils"], function(
 
 	    //Function to check if a node is in the list and push the name and the group
 	  function nodeByName(name, groupId) {
-	      return nodesByName[name] || (nodesByName[name] = {name : name, group : groupId});;
-	    } 
+	      return nodesByName[name] || (nodesByName[name] = {name : name, group : groupId});
+	    }
 
 
 	    //Function to perform when you start to drag a node
@@ -604,7 +649,7 @@ define(["api/SplunkVisualizationBase","api/SplunkVisualizationUtils"], function(
 	// Override to respond to re-sizing events
 	reflow: function() {}
 	});
-	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)); 
 
 /***/ }),
 /* 1 */
