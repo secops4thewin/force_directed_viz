@@ -132,6 +132,9 @@ define([
         // Enable Line Coloring range
         var LineColor = config[this.getPropertyNamespaceInfo().propertyNamespace + 'LineColor'] || 'disabled';
 
+        // Enable Line Coloring range
+        var PanZoom = config[this.getPropertyNamespaceInfo().propertyNamespace + 'PanZoom'] || 'disabled';
+
         // Adjust background depending on color theme
         var svgColour = backgroundColour(themeColor);
 
@@ -198,10 +201,12 @@ define([
           .append("svg:path")
           .attr('d', 'M 0,-5 L 10 ,0 L 0,5');
 
+        if(PanZoom === "enabled"){
         // Add Zoom Function.
         svg.call(d3.zoom().on("zoom", function () {
           svg.attr("transform", d3.event.transform)
         }));
+      }
 
         // Create a color gradient for highlighting groups
         var color = d3.scaleOrdinal(d3.schemeCategory20);
@@ -227,6 +232,8 @@ define([
           x++;
         });
 
+       // If there are header fields with node then push the nodes to the group_list array
+        if (columns.length >1){
         // For each row in the data push the value of the each column into the group_list array.
         datum.forEach(function (link) {
           var z = 1;
@@ -237,7 +244,16 @@ define([
             });
           }
         });
-
+      }
+      // If there are no header fields with node then push the nodes to the group_list array
+      else{
+         //For each row in the data push the value of the first and second column into the group_list array.  
+         datum.forEach(function(link) {
+          group_list.push({name : link[0]});
+         group_list.push({name : link[1]});
+       });
+      }
+      
         // Set to temporary array to null to clear from memory
         var tmp_arr = null;
 
@@ -255,6 +271,8 @@ define([
             return d3.descending(a.value, b.value);
           });
           
+          // If there are header fields with node then push to the link array
+          if (columns.length >0){
         // For each link in links create a node and push a 0 value group id.
         datum.forEach(function (link) {
           group_id = 0;
@@ -276,7 +294,22 @@ define([
             z++;
           }
         });
-
+      }
+        // If there are no header fields with node then push to the link array
+      else {
+        datum.forEach(function (link) {
+          group_id = 0;
+          // Create a link object to push the target and source to the linksArray array.
+          object = {};
+          object.target = nodeByName(link[0], group_id);
+          object.source = nodeByName(link[1], group_id);
+          // Push the nodes to the nodesByName array including a group id of 0.
+          // Push the object dictionary item from lines above to the linksArray array
+          linksArray.push(object);
+      });
+    }
+  
+    
         // Return group counts which have a rollup value of greater than 1
         var groups = groupCount.filter(function (group) {
           return group.value > 1;
