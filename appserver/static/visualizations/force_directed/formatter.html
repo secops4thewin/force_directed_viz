@@ -1,112 +1,126 @@
 <form class="splunk-formatter-section" section-label="Format">
-	<splunk-control-group label="Theme Color">
-    <splunk-radio-input name="{{VIZ_NAMESPACE}}.theme" value="light">
-    <option value="light">Light</option>
-    <option value="dark">Dark</option>
-	</splunk-radio-input>
+    <splunk-control-group label="Theme Color">
+        <splunk-radio-input name="{{VIZ_NAMESPACE}}.theme" value="light">
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+        </splunk-radio-input>
     </splunk-control-group>
     <splunk-control-group label="Arrows">
-    <splunk-radio-input name="{{VIZ_NAMESPACE}}.arrows" value="disabled">
-    <option value="enabled">Enabled</option>
-    <option value="disabled">Disabled</option>
-    </splunk-radio-input>
+        <splunk-radio-input name="{{VIZ_NAMESPACE}}.arrows" value="disabled">
+            <option value="enabled">Enabled</option>
+            <option value="disabled">Disabled</option>
+        </splunk-radio-input>
     </splunk-control-group>
-	<splunk-control-group label="Line Stroke Width">
-        	<splunk-text-input name="{{VIZ_NAMESPACE}}.StrokeWidth" value="1"> </splunk-text-input>
-        </splunk-control-group>
-	 </splunk-control-group>
-     <splunk-control-group label="Link Highlight Length">
-            <splunk-text-input name="{{VIZ_NAMESPACE}}.LinkLength" value="1"> </splunk-text-input>
-     </splunk-control-group>
-     <splunk-control-group label="Circle Radius">
-            <splunk-text-input name="{{VIZ_NAMESPACE}}.circleSize" value="5"> </splunk-text-input>
-     </splunk-control-group>
-     <splunk-control-group label="Pan/Zoom">
+    <splunk-control-group label="Circle Radius">
+        <splunk-text-input name="{{VIZ_NAMESPACE}}.circleSize" value="5"> </splunk-text-input>
+    </splunk-control-group>
+    <splunk-control-group label="Pan/Zoom">
         <splunk-radio-input name="{{VIZ_NAMESPACE}}.PanZoom" value="disabled">
             <option value="enabled">Enabled</option>
             <option value="disabled">Disabled</option>
     </splunk-control-group>
-     
-     </splunk-control-group>
 </form>
 <form class="splunk-formatter-section" section-label="Force Configuration">
-    	<splunk-control-group label="Attract Force Strength">
-        	<splunk-text-input name="{{VIZ_NAMESPACE}}.AttractForceStrength" value="-300"> </splunk-text-input>
-        </splunk-control-group>
-        <splunk-control-group label="Attract Distance Max">
-        	<splunk-text-input name="{{VIZ_NAMESPACE}}.AttractDistanceMax" value="200"> </splunk-text-input>
-        </splunk-control-group>
-        <splunk-control-group label="Attract Distance Min">
-       		 <splunk-text-input name="{{VIZ_NAMESPACE}}.AttractDistanceMin" value="60"> </splunk-text-input>
-        </splunk-control-group>
-            	<splunk-control-group label="Repel Force Strength">
-        	<splunk-text-input name="{{VIZ_NAMESPACE}}.RepelForceStrength" value="-140"> </splunk-text-input>
-        </splunk-control-group>
-        <splunk-control-group label="Repel Distance Max">
-        	<splunk-text-input name="{{VIZ_NAMESPACE}}.RepelDistanceMax" value="50"> </splunk-text-input>
-        </splunk-control-group>
-        <splunk-control-group label="Repel Distance Min">
-       		 <splunk-text-input name="{{VIZ_NAMESPACE}}.RepelDistanceMin" value="10"> </splunk-text-input>
-        </splunk-control-group>   
-        <splunk-control-group label="Link Distance">
-       		 <splunk-text-input name="{{VIZ_NAMESPACE}}.LinkDistance" value="100"> </splunk-text-input>
-        </splunk-control-group>        
+    <splunk-control-group label="Attract Force Strength">
+        <splunk-text-input name="{{VIZ_NAMESPACE}}.AttractForceStrength" value="-300"> </splunk-text-input>
+    </splunk-control-group>
+    <splunk-control-group label="Attract Distance Max">
+        <splunk-text-input name="{{VIZ_NAMESPACE}}.AttractDistanceMax" value="200"> </splunk-text-input>
+    </splunk-control-group>
+    <splunk-control-group label="Attract Distance Min">
+        <splunk-text-input name="{{VIZ_NAMESPACE}}.AttractDistanceMin" value="60"> </splunk-text-input>
+    </splunk-control-group>
+    <splunk-control-group label="Repel Force Strength">
+        <splunk-text-input name="{{VIZ_NAMESPACE}}.RepelForceStrength" value="-140"> </splunk-text-input>
+    </splunk-control-group>
+    <splunk-control-group label="Repel Distance Max">
+        <splunk-text-input name="{{VIZ_NAMESPACE}}.RepelDistanceMax" value="50"> </splunk-text-input>
+    </splunk-control-group>
+    <splunk-control-group label="Repel Distance Min">
+        <splunk-text-input name="{{VIZ_NAMESPACE}}.RepelDistanceMin" value="10"> </splunk-text-input>
+    </splunk-control-group>
+    <splunk-control-group label="Link Distance">
+        <splunk-text-input name="{{VIZ_NAMESPACE}}.LinkDistance" value="100"> </splunk-text-input>
+    </splunk-control-group>
 </form>
 <form class="splunk-formatter-section" section-label="Collision Configuration">
-        <splunk-control-group label="Collision Strength">
-            <splunk-text-input name="{{VIZ_NAMESPACE}}.CollisionStrength" value="0.7"> </splunk-text-input>
-        </splunk-control-group>
-        <splunk-control-group label="Collision Radius">
-            <splunk-text-input name="{{VIZ_NAMESPACE}}.CollisionRadius" value="20"> </splunk-text-input>
-        </splunk-control-group>
-        <splunk-control-group label="Force Collide">
-             <splunk-text-input name="{{VIZ_NAMESPACE}}.ForceCollision" value="20"> </splunk-text-input>
-        </splunk-control-group>
-                <splunk-control-group label="Collision Iterations">
-            <splunk-text-input name="{{VIZ_NAMESPACE}}.CollisionIterations" value="1"> </splunk-text-input>
-        </splunk-control-group>
-        
+    <splunk-control-group label="Collision Strength">
+        <splunk-text-input name="{{VIZ_NAMESPACE}}.CollisionStrength" value="0.7"> </splunk-text-input>
+    </splunk-control-group>
+    <splunk-control-group label="Collision Radius">
+        <splunk-text-input name="{{VIZ_NAMESPACE}}.CollisionRadius" value="30"> </splunk-text-input>
+    </splunk-control-group>
+    <splunk-control-group label="Force Collide">
+        <splunk-text-input name="{{VIZ_NAMESPACE}}.ForceCollision" value="20"> </splunk-text-input>
+    </splunk-control-group>
+    <splunk-control-group label="Collision Iterations">
+        <splunk-text-input name="{{VIZ_NAMESPACE}}.CollisionIterations" value="1"> </splunk-text-input>
+    </splunk-control-group>
+
 </form>
-<form class="splunk-formatter-section" section-label="Line Color">
-        <splunk-control-group label="Line Color Enabled">
-    <splunk-radio-input name="{{VIZ_NAMESPACE}}.LineColor" value="disabled">
-    <option value="enabled">Enabled</option>
-    <option value="disabled">Disabled</option>
-    </splunk-radio-input>
-    <html><p>Color Ranges, each range must be greater than the previous range</p></html>
-    <splunk-control-group label="Color Range 1" >
-            <splunk-text-input name="{{VIZ_NAMESPACE}}.ColorRange1" value="100"> </splunk-text-input>
-        </splunk-control-group>
-        <splunk-control-group>
+<form class="splunk-formatter-section" section-label="Link Configuration">
+    <splunk-control-group label="Link Highlight Length">
+        <splunk-text-input name="{{VIZ_NAMESPACE}}.LinkLength" value="1"> </splunk-text-input>
+    </splunk-control-group>
+    <splunk-control-group label="Line Color Enabled">
+        <splunk-radio-input name="{{VIZ_NAMESPACE}}.LineColor" value="disabled">
+            <option value="enabled">Enabled</option>
+            <option value="disabled">Disabled</option>
+        </splunk-radio-input>
+    </splunk-control-group>
+
+    <splunk-control-group label="Color Range 1">
+        <splunk-text-input name="{{VIZ_NAMESPACE}}.ColorRange1" value="100"> </splunk-text-input>
+    </splunk-control-group>
+    <splunk-control-group label="Stroke Width Range 1">
+        <splunk-text-input name="{{VIZ_NAMESPACE}}.SWRange1" value="1"> </splunk-text-input>
+    </splunk-control-group>
+    <splunk-control-group>
         <splunk-color-picker type="splunkSemantic" value="#65a637" name="{{VIZ_NAMESPACE}}.ColorRange1Code">
-            </splunk-color-picker>
-            </splunk-control-group>
-        <splunk-control-group label="Color Range 2" >
-            <splunk-text-input name="{{VIZ_NAMESPACE}}.ColorRange2" value="500"> </splunk-text-input>
-        </splunk-control-group>
-           <splunk-control-group>
+        </splunk-color-picker>
+    </splunk-control-group>
+
+
+    <splunk-control-group label="Color Range 2">
+        <splunk-text-input name="{{VIZ_NAMESPACE}}.ColorRange2" value="500"> </splunk-text-input>
+    </splunk-control-group>
+        <splunk-control-group label="Stroke Width Range 2">
+        <splunk-text-input name="{{VIZ_NAMESPACE}}.SWRange2" value="1"> </splunk-text-input>
+    </splunk-control-group>
+    <splunk-control-group>
         <splunk-color-picker type="splunkSemantic" value="#6db7c6" name="{{VIZ_NAMESPACE}}.ColorRange2Code">
-            </splunk-color-picker>
-            </splunk-control-group>
-        <splunk-control-group label="Color Range 3"  >
-            <splunk-text-input name="{{VIZ_NAMESPACE}}.ColorRange3" value="1000"> </splunk-text-input>
-        </splunk-control-group>
-           <splunk-control-group>
+        </splunk-color-picker>
+    </splunk-control-group>
+
+
+    <splunk-control-group label="Color Range 3">
+        <splunk-text-input name="{{VIZ_NAMESPACE}}.ColorRange3" value="1000"> </splunk-text-input>
+    </splunk-control-group>
+        <splunk-control-group label="Stroke Width Range 3">
+        <splunk-text-input name="{{VIZ_NAMESPACE}}.SWRange3" value="1"> </splunk-text-input>
+    </splunk-control-group>
+    <splunk-control-group>
         <splunk-color-picker type="splunkSemantic" value="#f7bc38" name="{{VIZ_NAMESPACE}}.ColorRange3Code">
-            </splunk-color-picker>
-            </splunk-control-group>
-        <splunk-control-group label="Color Range 4"  >
-            <splunk-text-input name="{{VIZ_NAMESPACE}}.ColorRange4" value="10000"> </splunk-text-input>
-        </splunk-control-group>
-           <splunk-control-group>
+        </splunk-color-picker>
+    </splunk-control-group>
+    <splunk-control-group label="Color Range 4">
+        <splunk-text-input name="{{VIZ_NAMESPACE}}.ColorRange4" value="10000"> </splunk-text-input>
+    </splunk-control-group>
+        <splunk-control-group label="Stroke Width Range 4">
+        <splunk-text-input name="{{VIZ_NAMESPACE}}.SWRange4" value="1"> </splunk-text-input>
+    </splunk-control-group>
+    <splunk-control-group>
         <splunk-color-picker type="splunkSemantic" value="#f58f39" name="{{VIZ_NAMESPACE}}.ColorRange4Code">
-            </splunk-color-picker>
-            </splunk-control-group>
-        <splunk-control-group label="Color Range 5"  >
-            <splunk-text-input name="{{VIZ_NAMESPACE}}.ColorRange5" value="1000000"> </splunk-text-input>
-        </splunk-control-group>
-           <splunk-control-group>
+        </splunk-color-picker>
+    </splunk-control-group>
+    <splunk-control-group label="Color Range 5">
+        <splunk-text-input name="{{VIZ_NAMESPACE}}.ColorRange5" value="1000000"> </splunk-text-input>
+    </splunk-control-group>
+        <splunk-control-group label="Stroke Width Range 5">
+        <splunk-text-input name="{{VIZ_NAMESPACE}}.SWRange5" value="1"> </splunk-text-input>
+    </splunk-control-group>
+    <splunk-control-group>
         <splunk-color-picker type="splunkSemantic" value="#d93f3c" name="{{VIZ_NAMESPACE}}.ColorRange5Code">
-            </splunk-color-picker>
-            </splunk-control-group>
+        </splunk-color-picker>
+    </splunk-control-group>
 </form>
