@@ -32,3 +32,6 @@ display.visualizations.custom.force_directed_viz.force_directed.SWRange3 =  <str
 display.visualizations.custom.force_directed_viz.force_directed.SWRange4 =  <string>
 display.visualizations.custom.force_directed_viz.force_directed.SWRange5 = <string>
 display.visualizations.custom.force_directed_viz.force_directed.PanZoom = <string>
+display.visualizations.custom.force_directed_viz.force_directed.lowerRange = <int>
+display.visualizations.custom.force_directed_viz.force_directed.upperRange = <int>
+

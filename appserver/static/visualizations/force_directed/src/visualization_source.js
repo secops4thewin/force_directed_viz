@@ -136,6 +136,10 @@ define([
         var SWRange4 = config[this.getPropertyNamespaceInfo().propertyNamespace + 'SWRange4'] || '1';
         var SWRange5 = config[this.getPropertyNamespaceInfo().propertyNamespace + 'SWRange5'] || '1';
 
+        // Specify a lower and upper range of the node sizes
+        var lowerRange = config[this.getPropertyNamespaceInfo().propertyNamespace + 'lowerRange'] || '5';
+        var upperRange = config[this.getPropertyNamespaceInfo().propertyNamespace + 'upperRange'] || '5';
+
         // Enable Line Coloring range
         var PanZoom = config[this.getPropertyNamespaceInfo().propertyNamespace + 'PanZoom'] || 'disabled';
 
@@ -340,9 +344,9 @@ define([
                 // Set the group value of both the source to group.group
                 nodesByName[linkGroupArray.source.name].group = groupArrayMember.group;
               }
-              // If the group value of the source is 0
+              // If the group value of the target is 0
               if (nodesByName[linkGroupArray.target.name].group === 0) {
-                // Set the group value of both the source to group.value
+                // Set the group value of both the target to group.value
                 nodesByName[linkGroupArray.target.name].group = groupArrayMember.group;
               }
             }
@@ -433,6 +437,13 @@ define([
           });
 
 
+        // Create a Scale for the Dynamic Node Sizing
+        var nodeScale = d3.scaleLinear();
+
+        nodeScale
+        .domain([0, groupCount[0].value])
+        .range([lowerRange, upperRange]);
+
         // Create edge paths for labels on paths to exist
         edgepaths = svg.selectAll(".edgepath")
           .data(linksArray)
@@ -491,8 +502,15 @@ define([
           );
         // Append a circle element to represent the node
         node.append("circle")
-          // Specify a radius for the node width.  This means that the circle is 5px in radius.
-          .attr("r", circleSize)
+          // Specify a radius for the node width with a dynamic range.
+          .attr("r", function(d){
+            // Filter the group list down to the node that we are working on
+            var nodeChildren = groupCount.filter(function(nodeItem){
+              return nodeItem.key == d.name;
+            })
+            // Return a scaled amount to change the radius
+            return nodeScale(nodeChildren[0].value);
+          })
           .attr("fill", function (d) {
             return color(d.group);
           });

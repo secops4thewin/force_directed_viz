@@ -11,9 +11,6 @@
             <option value="disabled">Disabled</option>
         </splunk-radio-input>
     </splunk-control-group>
-    <splunk-control-group label="Circle Radius">
-        <splunk-text-input name="{{VIZ_NAMESPACE}}.circleSize" value="5"> </splunk-text-input>
-    </splunk-control-group>
     <splunk-control-group label="Pan/Zoom">
         <splunk-radio-input name="{{VIZ_NAMESPACE}}.PanZoom" value="disabled">
             <option value="enabled">Enabled</option>
@@ -123,4 +120,14 @@
         <splunk-color-picker type="splunkSemantic" value="#d93f3c" name="{{VIZ_NAMESPACE}}.ColorRange5Code">
         </splunk-color-picker>
     </splunk-control-group>
+    </form>
+    <form class="splunk-formatter-section" section-label="Node Configuration">
+    <splunk-control-group label="Node Pixel Smallest Size">
+        <splunk-text-input name="{{VIZ_NAMESPACE}}.lowerRange" value="5"> </splunk-text-input>
+    </splunk-control-group>
+    <splunk-control-group label="Node Pixel Largest Size">
+        <splunk-text-input name="{{VIZ_NAMESPACE}}.upperRange" value="5"> </splunk-text-input>
+    </splunk-control-group>
+</form>
+
 </form>
