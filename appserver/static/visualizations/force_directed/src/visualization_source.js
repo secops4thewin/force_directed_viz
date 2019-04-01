@@ -78,14 +78,11 @@ define([
         // Get Link Distance
         var LinkDistance = config[this.getPropertyNamespaceInfo().propertyNamespace + 'LinkDistance'] || '100';
 
-        // Specify a width of the line.
-        var StrokeWidth = config[this.getPropertyNamespaceInfo().propertyNamespace + 'StrokeWidth'] || '1';
-
         // Get Repel Force Strength
         var CollisionStrength = config[this.getPropertyNamespaceInfo().propertyNamespace + 'CollisionStrength'] || '0.7';
 
         // Get Repel Force Maximum Distance
-        var CollisionRadius = config[this.getPropertyNamespaceInfo().propertyNamespace + 'CollisionRadius'] || '20';
+        var CollisionRadius = config[this.getPropertyNamespaceInfo().propertyNamespace + 'CollisionRadius'] || '30';
 
         // Get Repel Force Minimum Distance
         var ForceCollision = config[this.getPropertyNamespaceInfo().propertyNamespace + 'ForceCollision'] || '20';
@@ -131,6 +128,17 @@ define([
 
         // Enable Line Coloring range
         var LineColor = config[this.getPropertyNamespaceInfo().propertyNamespace + 'LineColor'] || 'disabled';
+
+        // Specify Stroke Width Range
+        var SWRange1 = config[this.getPropertyNamespaceInfo().propertyNamespace + 'SWRange1'] || '1';
+        var SWRange2 = config[this.getPropertyNamespaceInfo().propertyNamespace + 'SWRange2'] || '1';
+        var SWRange3 = config[this.getPropertyNamespaceInfo().propertyNamespace + 'SWRange3'] || '1';
+        var SWRange4 = config[this.getPropertyNamespaceInfo().propertyNamespace + 'SWRange4'] || '1';
+        var SWRange5 = config[this.getPropertyNamespaceInfo().propertyNamespace + 'SWRange5'] || '1';
+
+        // Specify a lower and upper range of the node sizes
+        var lowerRange = config[this.getPropertyNamespaceInfo().propertyNamespace + 'lowerRange'] || '5';
+        var upperRange = config[this.getPropertyNamespaceInfo().propertyNamespace + 'upperRange'] || '5';
 
         // Enable Line Coloring range
         var PanZoom = config[this.getPropertyNamespaceInfo().propertyNamespace + 'PanZoom'] || 'disabled';
@@ -207,21 +215,22 @@ define([
           svg.attr("transform", d3.event.transform)
         }));
       }
-
         // Create a color gradient for highlighting groups
         var color = d3.scaleOrdinal(d3.schemeCategory20);
+
         // Create attract forces
         var attractForce = d3.forceManyBody().strength(AttractForceStrength).distanceMax(AttractDistanceMax).distanceMin(AttractDistanceMin);
         // Create repel forces
         var repelForce = d3.forceManyBody().strength(RepelForceStrength).distanceMax(RepelDistanceMax).distanceMin(RepelDistanceMin);
-        // Create a simulation force and apply the attract / repel force concentrating the nodes to the middle
-        var simulation = d3.forceSimulation()
+
+          var simulation = d3.forceSimulation()
           .force("link", d3.forceLink().id(function (d) {
             return d.id;
           }).distance(LinkDistance).strength(1))
           .force("attractForce", attractForce).force("repelForce", repelForce)
           .force("center", d3.forceCenter(width / 2, height / 2))
           .force('collision', d3.forceCollide(ForceCollision).radius(CollisionRadius).strength(CollisionStrength).iterations(CollisionIterations));
+
 
         // For each field in the output if the regex matches the pattern variable push it to the columns array
         data.fields.forEach(function (column) {
@@ -253,7 +262,7 @@ define([
          group_list.push({name : link[1]});
        });
       }
-      
+
         // Set to temporary array to null to clear from memory
         var tmp_arr = null;
 
@@ -270,7 +279,7 @@ define([
           .sort(function (a, b) {
             return d3.descending(a.value, b.value);
           });
-          
+
           // If there are header fields with node then push to the link array
           if (columns.length >0){
         // For each link in links create a node and push a 0 value group id.
@@ -303,13 +312,14 @@ define([
           object = {};
           object.target = nodeByName(link[0], group_id);
           object.source = nodeByName(link[1], group_id);
+          object.count = link[2];
           // Push the nodes to the nodesByName array including a group id of 0.
           // Push the object dictionary item from lines above to the linksArray array
           linksArray.push(object);
       });
     }
-  
-    
+
+
         // Return group counts which have a rollup value of greater than 1
         var groups = groupCount.filter(function (group) {
           return group.value > 1;
@@ -334,9 +344,9 @@ define([
                 // Set the group value of both the source to group.group
                 nodesByName[linkGroupArray.source.name].group = groupArrayMember.group;
               }
-              // If the group value of the source is 0
+              // If the group value of the target is 0
               if (nodesByName[linkGroupArray.target.name].group === 0) {
-                // Set the group value of both the source to group.value
+                // Set the group value of both the target to group.value
                 nodesByName[linkGroupArray.target.name].group = groupArrayMember.group;
               }
             }
@@ -373,9 +383,8 @@ define([
           .enter().append("line")
           .attr("id", function (d, i) {
             return 'edge' + i;
-          })
-          // If there is a value in StrokeWidth you can adjust the width of the stroke.
-          .attr("stroke-width", StrokeWidth);
+          });
+
           // If arrows are enabled in the Splunk configuration
         if (Arrows == 'enabled') {
           link.attr("marker-end", "url(#end)");
@@ -389,7 +398,7 @@ define([
           }
 
           link.style("stroke", function (d) {
-            numberValue = Number(d[2])
+            numberValue = Number(d.count)
             if (numberValue <= ColorRange1) {
               return ColorRange1Code
             } else if (numberValue > ColorRange1 && numberValue <= ColorRange2) {
@@ -407,6 +416,33 @@ define([
             }
           });
         }
+
+        link.style("stroke-width", function (d) {
+            numberValue = Number(d.count)
+            if (numberValue <= ColorRange1) {
+              return SWRange1
+            } else if (numberValue > ColorRange1 && numberValue <= ColorRange2) {
+
+              return SWRange2
+            } else if (numberValue > ColorRange2 && numberValue <= ColorRange3) {
+
+              return SWRange3
+            } else if (numberValue > ColorRange3 && numberValue <= ColorRange4) {
+
+              return SWRange4
+            } else if (numberValue > ColorRange4) {
+
+              return SWRange5
+            }
+          });
+
+
+        // Create a Scale for the Dynamic Node Sizing
+        var nodeScale = d3.scaleLinear();
+
+        nodeScale
+        .domain([0, groupCount[0].value])
+        .range([lowerRange, upperRange]);
 
         // Create edge paths for labels on paths to exist
         edgepaths = svg.selectAll(".edgepath")
@@ -455,7 +491,9 @@ define([
           .enter().append("g")
           .attr("class", "node")
           // Fade all other elements when you mouseover linked elements
-          .on("mouseover", fade(.1)).on("mouseout", fade(1))
+          .on("mouseover", fade(.1))
+          .on("mouseout", fade(1))
+          .on("dblclick", dblclick)
           // When you drag any node these actions start, while the node is being dragged and when it ends
           .call(d3.drag()
             .on("start", dragstarted)
@@ -464,10 +502,16 @@ define([
           );
         // Append a circle element to represent the node
         node.append("circle")
-          // Specify a radius for the node width.  This means that the circle is 5px in radius.
-          .attr("r", circleSize)
+          // Specify a radius for the node width with a dynamic range.
+          .attr("r", function(d){
+            // Filter the group list down to the node that we are working on
+            var nodeChildren = groupCount.filter(function(nodeItem){
+              return nodeItem.key == d.name;
+            })
+            // Return a scaled amount to change the radius
+            return nodeScale(nodeChildren[0].value);
+          })
           .attr("fill", function (d) {
-
             return color(d.group);
           });
 
@@ -569,13 +613,11 @@ define([
           });
         }
 
-
         // Function to perform when you start to drag a node
         function dragstarted(d) {
-          if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+          if (!d3.event.active)simulation.alphaTarget(0.3).restart();
           d.fx = d.x;
           d.fy = d.y;
-
         }
 
         // Function to perform when a node is being dragged.
@@ -588,6 +630,14 @@ define([
         // Function to perform when the drag event has ended.
         function dragended(d) {
           if (!d3.event.active) simulation.alphaTarget(0);
+          d3.select(this).select("circle").attr("fill", "#f00");
+        }
+
+        function dblclick(d) {
+          if (!d3.event.active) simulation.alphaTarget(0);
+          d3.select(this).select("circle").attr("fill", function (d) {
+            return color(d.group);
+          });
           d.fx = null;
           d.fy = null;
         }

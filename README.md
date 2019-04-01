@@ -28,8 +28,6 @@ https://vega.github.io/vega/docs/transforms/force/
 #### Format
 1. Theme Color - Changes background image color
 2. Arrows - Enables direction arrows in force directed visualization
-3. Line Stroke Width - Changes the width of the lines connecting nodes
-4. Link Length - This number affects how many node children are higlighted when you mouseover a node.  i.e If you select '2' and hover over a node. Its connected nodes are highlighted and children of those.
 
 #### Force Configuration
 1. Attract Force Strength - Strength of Attracting forces. 
@@ -44,6 +42,16 @@ https://vega.github.io/vega/docs/transforms/force/
 2. Collision Radius - The radius between a center of each node that can't be overlapped with each other
 3. Force Collide - Superfluous setting
 4. Collision Iterations - The number of times to 
+
+#### Link Configuration
+1. Link Highlight Length - From the highlighted node, how many children links will be highlighted
+2. Line Color Enabled - Should the links be colored dependant on the bin ranges
+3. Color Range X - Bin from 0-Range1, Range1-Range2, Range3-Range4, etc
+2. Stroke Width - Same as color range but changing the width of the link
+
+#### Node Configuration
+1. Node Pixel Smallest Size - Dynamic sizer that has a scale rating, this is the lower limit (Smallest sized node)
+1. Node Pixel Largest Size - Dynamic sizer that has a scale rating, this is the upper limit (Largest sized node)
 
 ### Bugs
 Known - Arrows not working in IE11.  This is a bug in IE not the code.  To make the code flexible to exclude and include arrows I could not make this work.
@@ -61,6 +69,15 @@ Post any feature requests as issues and I will look around to them.  My only fee
 
 **Windows Server 2012**
 - Internet Explorer 11
+
+### Release Notes
+***Version 3.0.0***
+- Added Dynamic Node Sizing
+- Added ability to pin and unpin nodes
+- Added support for later versions of Splunk
+- Moved Menu Items around
+- Added Stroke width in Link Configuration
+- Probably something else I forgot.
 
 ### License
 This app uses D3 with the following license conditions
