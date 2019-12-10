@@ -140,6 +140,8 @@ define([
         var lowerRange = config[this.getPropertyNamespaceInfo().propertyNamespace + 'lowerRange'] || '5';
         var upperRange = config[this.getPropertyNamespaceInfo().propertyNamespace + 'upperRange'] || '5';
 
+        var nodeFontSize = config[this.getPropertyNamespaceInfo().propertyNamespace + 'nodeFontSize'] || '10';
+        var nodeFontStyle = nodeFontSize.toString() + "px sans-serif";
         // Enable Line Coloring range
         var PanZoom = config[this.getPropertyNamespaceInfo().propertyNamespace + 'PanZoom'] || 'disabled';
 
@@ -525,6 +527,7 @@ define([
           .attr("y", 0)
           .attr("dy", ".35em")
           .style("fill", stringFill)
+          .style("font", nodeFontStyle)
           .text(function (d) {
             return d.name;
           });
